@@ -1,29 +1,49 @@
 import { Crypto } from '@/types';
 
-export async function getCryptos() {
+const API_URL = 'https://api.coingecko.com/api/v3';
 
-    console.log('Fetching cryptos')
-
-    const response = await fetch('https://api.coincap.io/v2/assets');
+export async function getTopCryptoNames(): Promise<string[]> {
+    const response = await fetch(`${API_URL}/coins/markets?vs_currency=usd&per_page=10`);
 
     if (!response.ok) {
-        console.log('Failed to fetch cryptos');
-        throw new Error('Failed to fetch cryptos');
+        throw new Error('Failed to fetch top cryptos');
     }
 
     const data = await response.json();
 
-    const cryptoList: Crypto[] = [];
+    return data.map((crypto: any) => crypto.name);
+}
 
-    for (const crypto of data.data) {
-        cryptoList.push({
-            id: crypto.id,
-            rank: crypto.rank,
-            symbol: crypto.symbol,
-            name: crypto.name,
-            priceUsd: crypto.priceUsd,
-        });
+export async function getCryptoByID(id: string): Promise<Crypto> {
+    const response = await fetch(`${API_URL}/coins/${id}`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch crypto');
     }
 
-    return cryptoList;
+    const data = await response.json();
+
+    return {
+        id: data.id,
+        symbol: data.symbol,
+        name: data.name,
+        priceUsd: data.market_data.current_price.usd,
+        marketCapUsd: data.market_data.market_cap.usd,
+    };
+}
+
+export async function searchCrypto(name: string): Promise<string> {
+    const response = await fetch(`${API_URL}/search?query=${name}`);
+
+    if (!response.ok) {
+        throw new Error('Failed to search for crypto');
+    }
+
+    const data = await response.json();
+
+    if (data.coins.length === 0) {
+        throw new Error('Crypto not found');
+    }
+
+    return data.coins[0].id;
 }

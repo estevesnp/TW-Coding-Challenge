@@ -1,26 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Crypto } from '@/types';
-import FetchButton from '@/components/FetchButton';
 import CryptoDropDown from '@/components/CryptoDropDown';
 import DisplayCrypto from '@/components/DisplayCrypto';
+import { getTopCryptoNames } from '@/utils/cryptoAPI';
 
-export default function App() {
-    const [cryptos, setCryptos] = useState<Crypto[]>([]);
-    const [selectedCrypto, setSelectedCrypto] = useState<Crypto | null>(null);
+
+interface AppProps {
+    dropdownCryptos: string[];
+}
+
+export default function App({ dropdownCryptos }: AppProps) {
+    const [dropDownCryptos, setDropDownCryptos] = useState<string[]>([]);
+    const [selectedCryptos, setSelectedCryptos] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+
 
     return (
         <>
-            <FetchButton setCryptos={setCryptos} setError={setError} />
-
             <h1>Crypto Currency Price Tracker</h1>
-            {error && <p>{error}</p>}
+            {error && <p className='error-msg'>{error}</p>}
 
-            <CryptoDropDown cryptos={cryptos} selectedCrypto={selectedCrypto} setSelectedCrypto={setSelectedCrypto} />
+            <CryptoDropDown
+                dropdownCryptos={dropdownCryptos}
+                selectedCryptos={selectedCryptos}
+                setSelectedCryptos={setSelectedCryptos}
+            />
 
-            <DisplayCrypto selectedCrypto={selectedCrypto} />
+
+
+
         </>
     )
 }

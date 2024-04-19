@@ -1,35 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Crypto } from '@/types';
+import { getTopCryptoNames } from '@/utils/cryptoAPI';
 
 interface CryptoDropDownProps {
-    cryptos: Crypto[];
-    selectedCrypto: Crypto | null;
-    setSelectedCrypto: (crypto: Crypto) => void;
+    dropdownCryptos: string[];
+    selectedCryptos: string[];
+    setSelectedCryptos: (cryptos: string[]) => void;
 }
 
-export default function CryptoDropDown({
-    cryptos,
-    selectedCrypto,
-    setSelectedCrypto,
+export default async function CryptoDropDown({
+    dropdownCryptos,
+    selectedCryptos: selectedCrypto,
+    setSelectedCryptos: setSelectedCrypto,
 }: CryptoDropDownProps) {
+
     return (
-        <select
-            value={selectedCrypto ? selectedCrypto.id : ''}
-            onChange={(e) => {
-                const selectedCrypto = cryptos.find(
-                    (crypto) => crypto.id === e.target.value
-                );
-                if (selectedCrypto) {
-                    setSelectedCrypto(selectedCrypto);
-                }
-            }}
-        >
-            <option value="">Select a Crypto</option>
-            {cryptos.map((crypto) => (
-                <option key={crypto.id} value={crypto.id}>
-                    {crypto.name}
-                </option>
-            ))}
-        </select>
+
+        <div>
+
+            <select
+                multiple
+                value={selectedCrypto}
+                onChange={(event) => setSelectedCrypto([])}
+            >
+                <option value="">Select a crypto</option>
+                {dropdownCryptos.map((cryptoName) => (
+                    <option key={cryptoName} value={cryptoName}>
+                        {cryptoName}
+                    </option>
+                ))}
+            </select>
+
+        </div>
     );
 }
 
