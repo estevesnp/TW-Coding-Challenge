@@ -1,20 +1,17 @@
-import App from './App'
-import { getTopCryptoNames } from '@/utils/cryptoAPI';
+import App from "./App";
+import { DropdownCoin } from "@/types/Coin";
+import { getTopCoins } from "@/utils/cryptoAPI";
 
-export default async function Home() {
+export default async function Page() {
+  const coinNames: DropdownCoin[] = [];
+  let initError: string | null = null;
 
-    const dropdownCryptos: string[] = [];
+  try {
+    coinNames.push(...(await getTopCoins()));
+  } catch (error) {
+    console.error(error);
+    initError = "Failed to connect to the API, please try again later.";
+  }
 
-    try {
-        const response = await getTopCryptoNames();
-
-        dropdownCryptos.push(...response);
-    } catch (error) {
-        console.error(error);
-    }
-
-
-    return (
-        <App dropdownCryptos={dropdownCryptos} />
-    )
+  return <App dropdownCoins={coinNames} initError={initError} />;
 }
