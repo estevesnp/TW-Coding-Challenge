@@ -6,6 +6,7 @@ import CoinDisplay from "@/components/CoinDisplay";
 import { Coin, DropdownCoin } from "@/types/Coin";
 import { getCoinByID } from "@/utils/cryptoAPI";
 import styles from "@/styles/App.module.css";
+import CoinSearch from "@/components/CoinSearch";
 
 interface AppProps {
   dropdownCoins: DropdownCoin[];
@@ -40,6 +41,8 @@ export default function App({ dropdownCoins, initError }: AppProps) {
     <>
       <h1>Cypto Currency Price Tracker</h1>
       {error && <p className={styles.error}>{error}</p>}
+
+      <CoinSearch addCoin={addCoin} setError={setError} />
 
       <CoinDropdown
         dropdownCoins={dropdownCoins}
