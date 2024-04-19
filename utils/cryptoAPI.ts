@@ -2,9 +2,12 @@ import { Crypto } from '@/types';
 
 export async function getCryptos() {
 
+    console.log('Fetching cryptos')
+
     const response = await fetch('https://api.coincap.io/v2/assets');
 
     if (!response.ok) {
+        console.log('Failed to fetch cryptos');
         throw new Error('Failed to fetch cryptos');
     }
 
