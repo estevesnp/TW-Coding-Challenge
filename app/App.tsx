@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import CoinDropdown from "@/components/CoinDropdown";
 import CoinDisplay from "@/components/CoinDisplay";
 import { Coin, DropdownCoin } from "@/types/Coin";
@@ -16,6 +16,11 @@ interface AppProps {
 export default function App({ dropdownCoins, initError }: AppProps) {
   const [selectedCoins, setSelectedCoins] = useState<Coin[]>([]);
   const [error, setError] = useState<string | null>(initError);
+  const selectedCoinsRef = useRef(selectedCoins);
+
+  useEffect(() => {
+    selectedCoinsRef.current = selectedCoins;
+  }, [selectedCoins]);
 
   const addCoin = (coinId: string) => {
     if (!coinId || selectedCoins.some((coin) => coin.id === coinId)) {
@@ -36,6 +41,22 @@ export default function App({ dropdownCoins, initError }: AppProps) {
   const removeCoin = (coinId: string) => {
     setSelectedCoins(selectedCoins.filter((coin) => coin.id !== coinId));
   };
+
+  const updateCoins = () => {
+    console.log("Updating coins at", new Date().toLocaleTimeString());
+    Promise.all(selectedCoinsRef.current.map((coin) => getCoinByID(coin.id)))
+      .then((coins) => {
+        setSelectedCoins(coins);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Updating too frequently, please wait a moment");
+      });
+  };
+
+  useEffect(() => {
+    setInterval(updateCoins, 60000);
+  }, []);
 
   return (
     <>

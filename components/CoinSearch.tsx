@@ -23,12 +23,9 @@ export default function CoinSearch({ addCoin, setError }: CoinSearchProps) {
 
     searchCoin(coinId)
       .then((coinId) => {
-        if (!coinId) {
-          console.error("Coin not found");
-          return;
-        }
         addCoin(coinId);
         setCoinId("");
+        setError(null);
       })
       .catch((error) => {
         console.error(error);

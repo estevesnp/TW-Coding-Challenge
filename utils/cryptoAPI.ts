@@ -8,7 +8,7 @@ export async function getTopCoins(): Promise<DropdownCoin[]> {
   );
 
   if (!response.ok) {
-    throw new Error("Failed to fetch top cryptos");
+    throw new Error("Failed to fetch top coins");
   }
 
   const data = await response.json();
@@ -28,7 +28,7 @@ export async function getCoinByID(id: string): Promise<Coin> {
   const response = await fetch(`${API_URL}/coins/${id}`);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch crypto");
+    throw new Error("Failed to fetch coin");
   }
 
   const data = await response.json();
@@ -46,13 +46,13 @@ export async function searchCoin(name: string): Promise<string> {
   const response = await fetch(`${API_URL}/search?query=${name}`);
 
   if (!response.ok) {
-    throw new Error("Failed to search for crypto");
+    throw new Error("Failed to search for coin");
   }
 
   const data = await response.json();
 
   if (data.coins.length === 0) {
-    throw new Error("Crypto not found");
+    throw new Error("Coin not found");
   }
 
   return data.coins[0].id;
