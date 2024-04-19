@@ -30,6 +30,6 @@ By default, the project will run on port 3000. You can access it by going to `ht
 
 ### Optional
 
-- [ ] Add search functionality
+- [x] Add search functionality
 - [ ] Add price history chart (Chart.js)
 - [ ] Local storage persistence for selected cryptos between sessions
