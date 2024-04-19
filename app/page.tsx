@@ -1,5 +1,7 @@
+import App from './App'
+
 export default function Home() {
-    return(
-    <div>Crypto Currency Price Tracker</div>
+    return (
+        <App />
     )
 }
