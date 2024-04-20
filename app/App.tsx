@@ -40,10 +40,6 @@ export default function App({ dropdownCoins, initError }: AppProps) {
     };
   }, [error]);
 
-  useEffect(() => {
-    selectedCoinsRef.current = selectedCoins;
-  }, [selectedCoins]);
-
   const addCoin = (coinId: string) => {
     if (!coinId || selectedCoins.some((coin) => coin.id === coinId)) {
       return;
@@ -70,15 +66,29 @@ export default function App({ dropdownCoins, initError }: AppProps) {
         setSelectedCoins(updatedCoins);
       })
       .catch((error) => {
-        console.error(error);
         showError(error.message);
       });
   };
 
   useEffect(() => {
     showError(initError);
-    //setInterval(updateCoins, 60000);
-  }, [initError]);
+    updateCoins();
+    const intervalId = setInterval(updateCoins, 60000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem("selectedCoins");
+    setSelectedCoins(storedValue ? JSON.parse(storedValue) : []);
+  }, []);
+
+  useEffect(() => {
+    selectedCoinsRef.current = selectedCoins;
+    localStorage.setItem("selectedCoins", JSON.stringify(selectedCoins));
+  }, [selectedCoins]);
 
   return (
     <>

@@ -26,7 +26,7 @@ By default, the project will run on port 3000. You can access it by going to `ht
 - [x] Add multiple selections at a time
 - [x] Add the possibility of removing a coin
 - [x] Update the prices at regular intervals (e.g. every 30secs) without refreshing the page
-- [ ] Add styling (Material UI)
+- [x] Add styling (Material UI)
 
 ### Optional
 
