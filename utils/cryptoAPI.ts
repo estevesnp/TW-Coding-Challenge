@@ -57,3 +57,37 @@ export async function searchCoin(name: string): Promise<string> {
 
   return data.coins[0].id;
 }
+
+export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
+  const coinIds: string[] = coins.map((coin) => coin.id);
+
+  const response = await fetch(
+    `${API_URL}/coins/markets?vs_currency=usd&ids=${coinIds.join(",")}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update coins");
+  }
+
+  const data = await response.json();
+
+  const returnedCoins: Coin[] = data.map((crypto: any) => ({
+    id: crypto.id,
+    symbol: crypto.symbol,
+    name: crypto.name,
+    priceUsd: crypto.current_price,
+    marketCapUsd: crypto.market_cap,
+  }));
+
+  const updatedCoins = coins.map((coin) => {
+    const updatedCoin = returnedCoins.find((c) => c.id === coin.id);
+
+    if (!updatedCoin) {
+      return coin;
+    }
+
+    return updatedCoin;
+  });
+
+  return updatedCoins;
+}

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import CoinDropdown from "@/components/CoinDropdown";
 import CoinDisplay from "@/components/CoinDisplay";
 import { Coin, DropdownCoin } from "@/types/Coin";
-import { getCoinByID } from "@/utils/cryptoAPI";
+import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
 import styles from "@/styles/App.module.css";
 import CoinSearch from "@/components/CoinSearch";
 
@@ -44,13 +44,13 @@ export default function App({ dropdownCoins, initError }: AppProps) {
 
   const updateCoins = () => {
     console.log("Updating coins at", new Date().toLocaleTimeString());
-    Promise.all(selectedCoinsRef.current.map((coin) => getCoinByID(coin.id)))
-      .then((coins) => {
-        setSelectedCoins(coins);
+    getUpdatedCoins(selectedCoinsRef.current)
+      .then((updatedCoins) => {
+        setSelectedCoins(updatedCoins);
       })
       .catch((error) => {
         console.error(error);
-        setError("Updating too frequently, please wait a moment");
+        setError(error.message);
       });
   };
 
