@@ -1,4 +1,4 @@
-import { Coin, DropdownCoin } from "@/types/Coin";
+import { Coin, DropdownCoin, CoinHistory } from "@/types";
 
 const API_URL = "https://api.coingecko.com/api/v3";
 
@@ -85,4 +85,25 @@ export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
   });
 
   return updatedCoins;
+}
+
+export async function getCoinHistory(id: string): Promise<CoinHistory> {
+  const response = await fetch(
+    `${API_URL}/coins/${id}/market_chart?vs_currency=usd&days=1`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch coin history");
+  }
+
+  const data = await response.json();
+
+  if (data.prices.length < 30) {
+    throw new Error("Not enough data to display chart");
+  }
+
+  return {
+    timestamps: data.prices.map((price: number[][]) => price[0]).slice(-30),
+    prices: data.prices.map((price: number[][]) => price[1]).slice(-30),
+  };
 }

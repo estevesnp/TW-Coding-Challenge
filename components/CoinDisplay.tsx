@@ -1,8 +1,13 @@
-import { Coin } from "@/types/Coin";
+import { useState } from "react";
+import { Coin } from "@/types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import CoinChart from "@/components/CoinChart";
+import Box from "@mui/material/Box";
 import "@/styles/CoinDisplay.css";
 
 interface CoinDisplayProps {
@@ -11,6 +16,16 @@ interface CoinDisplayProps {
 }
 
 export default function CoinDisplay({ coin, removeCoin }: CoinDisplayProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Card variant="outlined" className="coin-card">
       <CardContent>
@@ -30,10 +45,22 @@ export default function CoinDisplay({ coin, removeCoin }: CoinDisplayProps) {
         >
           Remove
         </Button>
-        <Button variant="contained" size="small" className="chart-button">
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleOpen}
+          className="chart-button"
+        >
           Chart
         </Button>
       </CardContent>
+
+      <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+        <DialogTitle>{coin.name} Chart</DialogTitle>
+        <Box p={6}>
+          <CoinChart coinId={coin.id} />
+        </Box>
+      </Dialog>
     </Card>
   );
 }

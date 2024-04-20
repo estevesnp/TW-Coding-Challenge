@@ -27,9 +27,10 @@ By default, the project will run on port 3000. You can access it by going to `ht
 - [x] Add the possibility of removing a coin
 - [x] Update the prices at regular intervals (e.g. every 30secs) without refreshing the page
 - [x] Add styling (Material UI)
+- [ ] Add MORE styling
 
 ### Optional
 
 - [x] Add search functionality
-- [ ] Add price history chart (Chart.js)
-- [ ] Local storage persistence for selected cryptos between sessions
+- [x] Add price history chart (Chart.js)
+- [x] Local storage persistence for selected cryptos between sessions

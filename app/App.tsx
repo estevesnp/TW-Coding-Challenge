@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import CoinDropdown from "@/components/CoinDropdown";
 import CoinDisplay from "@/components/CoinDisplay";
-import { Coin, DropdownCoin } from "@/types/Coin";
+import { Coin, DropdownCoin } from "@/types";
 import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
 import CoinSearch from "@/components/CoinSearch";
 import "@/styles/App.css";
@@ -60,6 +60,7 @@ export default function App({ dropdownCoins, initError }: AppProps) {
   };
 
   const updateCoins = () => {
+    return;
     console.log("Updating coins at", new Date().toLocaleTimeString());
     getUpdatedCoins(selectedCoinsRef.current)
       .then((updatedCoins) => {

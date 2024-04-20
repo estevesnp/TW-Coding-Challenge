@@ -1,5 +1,5 @@
 import App from "./App";
-import { DropdownCoin } from "@/types/Coin";
+import { DropdownCoin } from "@/types";
 import { getTopCoins } from "@/utils/cryptoAPI";
 
 export default async function Page() {
