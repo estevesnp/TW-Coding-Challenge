@@ -78,7 +78,7 @@ export default function App({ dropdownCoins, initError }: AppProps) {
   useEffect(() => {
     showError(initError);
     //setInterval(updateCoins, 60000);
-  }, []);
+  }, [initError]);
 
   return (
     <>
