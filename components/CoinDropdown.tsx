@@ -1,5 +1,11 @@
 import { useState } from "react";
+
 import { Coin, DropdownCoin } from "@/types/Coin";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import "@/styles/CoinDropdown.css";
 
 interface CoinDropdownProps {
   dropdownCoins: DropdownCoin[];
@@ -12,9 +18,12 @@ export default function CoinDropdown({
   selectedCoins,
   addCoin,
 }: CoinDropdownProps) {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [key, setKey] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: SelectChangeEvent<string>) => {
+    // closes the dropdown after selecting a coin
+    setKey((prevKey) => (prevKey ? "" : "key"));
+
     if (
       !e.target.value ||
       selectedCoins.some((coin) => coin.id === e.target.value)
@@ -23,18 +32,19 @@ export default function CoinDropdown({
     }
 
     addCoin(e.target.value);
-    setSelectedValue("");
     console.log("[" + e.target.value + "]");
   };
 
   return (
-    <select value={selectedValue} onChange={handleChange}>
-      <option value="">Select a coin to add</option>
-      {dropdownCoins.map((coinName) => (
-        <option key={coinName.id} value={coinName.id}>
-          {coinName.name}
-        </option>
-      ))}
-    </select>
+    <FormControl variant="standard" sx={{ m: 1, minWidth: 180 }} key={key}>
+      <InputLabel className="input-label">Select a coin to add</InputLabel>
+      <Select value="" label="Select a coin to add" onChange={handleChange}>
+        {dropdownCoins.map((coinName) => (
+          <MenuItem key={coinName.id} value={coinName.id}>
+            {coinName.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

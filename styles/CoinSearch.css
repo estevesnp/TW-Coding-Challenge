@@ -1,0 +1,19 @@
+.text-field .MuiOutlinedInput-root {
+  height: 34px;
+}
+
+.text-field .MuiOutlinedInput-input {
+  padding: 10px 10px;
+  font-size: 14px;
+}
+
+.text-field .MuiInputLabel-outlined {
+  font-size: 14px;
+}
+
+.button {
+  height: 34px;
+  width: 87px;
+  font-size: 14px;
+  margin-left: 10px;
+}

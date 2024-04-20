@@ -1,0 +1,38 @@
+.coin-card {
+  margin: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  max-width: 250px;
+}
+
+.coin-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333333;
+}
+
+.coin-symbol {
+  font-size: 1.2em;
+  color: #666666;
+  font-style: italic;
+}
+
+.coin-price {
+  font-size: 1em;
+  color: #333333;
+}
+
+.coin-market-cap {
+  font-size: 1em;
+  color: #333333;
+}
+
+.remove-button {
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.chart-button {
+  margin-top: 20px;
+}

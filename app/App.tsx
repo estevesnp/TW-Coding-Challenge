@@ -7,6 +7,7 @@ import { Coin, DropdownCoin } from "@/types/Coin";
 import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
 import styles from "@/styles/App.module.css";
 import CoinSearch from "@/components/CoinSearch";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 interface AppProps {
   dropdownCoins: DropdownCoin[];
@@ -47,6 +48,7 @@ export default function App({ dropdownCoins, initError }: AppProps) {
     getUpdatedCoins(selectedCoinsRef.current)
       .then((updatedCoins) => {
         setSelectedCoins(updatedCoins);
+        setError(null);
       })
       .catch((error) => {
         console.error(error);
@@ -55,7 +57,7 @@ export default function App({ dropdownCoins, initError }: AppProps) {
   };
 
   useEffect(() => {
-    setInterval(updateCoins, 60000);
+    //setInterval(updateCoins, 60000);
   }, []);
 
   return (

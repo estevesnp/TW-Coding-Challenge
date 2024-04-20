@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { searchCoin } from "@/utils/cryptoAPI";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import "@/styles/CoinSearch.css";
 
 interface CoinSearchProps {
   addCoin: (coinId: string) => void;
@@ -35,13 +38,18 @@ export default function CoinSearch({ addCoin, setError }: CoinSearchProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
+      <TextField
+        type="search"
         value={coinId}
         onChange={handleChange}
-        placeholder="Enter a coin ID"
+        label="Search for a coin"
+        variant="outlined"
+        size="small"
+        className="text-field"
       />
-      <button type="submit">Add Coin</button>
+      <Button variant="outlined" size="small" type="submit" className="button">
+        Add Coin
+      </Button>
     </form>
   );
 }
