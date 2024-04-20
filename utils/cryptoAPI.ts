@@ -13,11 +13,6 @@ export async function getTopCoins(): Promise<DropdownCoin[]> {
 
   const data = await response.json();
 
-  const l = data.map((crypto: any) => {
-    name: crypto.name;
-    id: crypto.id;
-  });
-
   return data.map((crypto: any) => ({
     name: crypto.name,
     id: crypto.id,

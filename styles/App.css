@@ -1,0 +1,27 @@
+.title {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 32px;
+  font-family: "Roboto", sans-serif;
+}
+
+.error {
+  color: red;
+}
+
+.coin-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.error-message {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #f8d7da; /* light red */
+  color: #721c24; /* dark red */
+  border-color: #f5c6cb; /* medium red */
+  border-radius: 5px;
+  z-index: 1000; /* ensure it appears above other elements */
+}

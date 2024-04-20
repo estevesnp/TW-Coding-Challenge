@@ -6,10 +6,10 @@ import "@/styles/CoinSearch.css";
 
 interface CoinSearchProps {
   addCoin: (coinId: string) => void;
-  setError: (error: string | null) => void;
+  showError: (error: string | null) => void;
 }
 
-export default function CoinSearch({ addCoin, setError }: CoinSearchProps) {
+export default function CoinSearch({ addCoin, showError }: CoinSearchProps) {
   const [coinId, setCoinId] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +20,7 @@ export default function CoinSearch({ addCoin, setError }: CoinSearchProps) {
     event.preventDefault();
 
     if (!coinId) {
-      setError("Please enter a coin ID");
+      showError("Please enter a coin ID");
       return;
     }
 
@@ -28,11 +28,9 @@ export default function CoinSearch({ addCoin, setError }: CoinSearchProps) {
       .then((coinId) => {
         addCoin(coinId);
         setCoinId("");
-        setError(null);
       })
       .catch((error) => {
-        console.error(error);
-        setError(error.message);
+        showError(error.message);
       });
   };
 

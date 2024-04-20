@@ -4,6 +4,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
   max-width: 250px;
+  font-size: 16px;
 }
 
 .coin-name {
