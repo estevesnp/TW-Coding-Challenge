@@ -15,6 +15,12 @@ Note, however, that since it uses a free API by [Coin Gecko](https://www.coingec
 - Remove a coin from the select coins
 - View an updated graph of the price changes from the last hour, with the highest and lowest prices being annotated
 
+## Images
+
+![normal-view](https://github.com/estevesnp/TW-Coding-Challenge/assets/147717227/3c4934ef-bc4a-4657-9025-360a6c6f0722)
+
+![chart-view](https://github.com/estevesnp/TW-Coding-Challenge/assets/147717227/c761575f-3ddf-4b6a-bf37-0006d0f3502f)
+
 ## Dependencies
 
 - NPM
