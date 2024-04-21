@@ -1,6 +1,7 @@
-import { use, useEffect, useState } from "react";
-import { CoinHistory } from "@/types";
+import { useEffect, useState } from "react";
+import { Coin, CoinHistory } from "@/types";
 import { getCoinHistory } from "@/utils/cryptoAPI";
+import { convertTimestamp } from "@/utils/helpers";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +13,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { get } from "http";
 
 ChartJS.register(
   CategoryScale,
@@ -24,51 +24,59 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Chart.js Line Chart",
-    },
-  },
-};
-
-function convertTimestamp(timestamp: number): string {
-  // Convert the timestamp to milliseconds
-  const date = new Date(timestamp);
-
-  // Get the day, hours, and minutes
-  const hh = date.getUTCHours();
-  const mm = date.getUTCMinutes().toString().padStart(2, "0");
-
-  // Format the date as dd,hh,mm
-  return `${hh}:${mm}`;
-}
-
 interface CoinChartProps {
-  coinId: string;
+  coin: Coin;
 }
 
-export default function CoinChart({ coinId }: CoinChartProps) {
+export default function CoinChart({ coin }: CoinChartProps) {
   const [coinHistory, setCoinHistory] = useState<CoinHistory | null>(null);
 
   useEffect(() => {
-    console.log("Fetching coin history for", coinId);
-    getCoinHistory(coinId).then((history) => {
+    console.log("Fetching coin history for", coin.id);
+    getCoinHistory(coin.id).then((history) => {
       setCoinHistory(history);
     });
-  }, [coinId]);
+  }, [coin]);
+
+  const prices = coinHistory?.prices || [];
+  const timestampsUTC = coinHistory?.timestamps.map(convertTimestamp) || [];
+
+  const options = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Time UTC",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Price USD",
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: `Price Chart for ${coin.name}`,
+        color: "black",
+        font: {
+          size: 20,
+        },
+      },
+    },
+  };
 
   const data = {
-    labels: coinHistory?.timestamps.map(convertTimestamp) || [],
+    labels: timestampsUTC,
     datasets: [
       {
-        label: "Price USD",
-        data: coinHistory?.prices || [],
+        data: prices,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },

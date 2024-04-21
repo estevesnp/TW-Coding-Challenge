@@ -56,9 +56,8 @@ export default function CoinDisplay({ coin, removeCoin }: CoinDisplayProps) {
       </CardContent>
 
       <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
-        <DialogTitle>{coin.name} Chart</DialogTitle>
-        <Box p={6}>
-          <CoinChart coinId={coin.id} />
+        <Box p={3}>
+          <CoinChart coin={coin} />
         </Box>
       </Dialog>
     </Card>

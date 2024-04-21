@@ -37,3 +37,8 @@
 .chart-button {
   margin-top: 20px;
 }
+
+.dialog-title {
+  font-size: 30px;
+  text-align: center;
+}
