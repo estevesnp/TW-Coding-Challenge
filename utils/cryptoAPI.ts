@@ -1,4 +1,4 @@
-import { Coin, DropdownCoin, CoinHistory } from "@/types";
+import { Coin, CoinHistory } from "@/types";
 
 const API_URL = "https://api.coingecko.com/api/v3";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Coin, DropdownCoin } from "@/types";
+import { Coin } from "@/types";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";

@@ -13,14 +13,9 @@ import "@/styles/CoinDisplay.css";
 interface CoinDisplayProps {
   coin: Coin;
   removeCoin: (coinId: string) => void;
-  showError: (err: string | null) => void;
 }
 
-export default function CoinDisplay({
-  coin,
-  removeCoin,
-  showError,
-}: CoinDisplayProps) {
+export default function CoinDisplay({ coin, removeCoin }: CoinDisplayProps) {
   const [open, setOpen] = useState(false);
   const [showChartError, setShowChartError] = useState(false);
 

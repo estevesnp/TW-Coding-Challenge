@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
-import { Coin, DropdownCoin } from "@/types";
+import { Coin } from "@/types";
 import CoinDropdown from "@/components/CoinDropdown";
 import CoinDisplay from "@/components/CoinDisplay";
 import CoinSearch from "@/components/CoinSearch";
@@ -145,12 +145,7 @@ export default function App({ dropdownCoins, initError }: AppProps) {
 
       <div className="coin-container">
         {selectedCoins.map((coin) => (
-          <CoinDisplay
-            key={coin.id}
-            coin={coin}
-            removeCoin={removeCoin}
-            showError={showError}
-          />
+          <CoinDisplay key={coin.id} coin={coin} removeCoin={removeCoin} />
         ))}
       </div>
     </>
