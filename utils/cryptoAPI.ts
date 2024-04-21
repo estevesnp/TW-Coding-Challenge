@@ -2,6 +2,7 @@ import { Coin, DropdownCoin, CoinHistory } from "@/types";
 
 const API_URL = "https://api.coingecko.com/api/v3";
 
+// Fetches the top 10 coins by market cap to display in the dropdown menu
 export async function getTopCoins(): Promise<DropdownCoin[]> {
   const response = await fetch(
     `${API_URL}/coins/markets?vs_currency=usd&per_page=10`
@@ -19,6 +20,7 @@ export async function getTopCoins(): Promise<DropdownCoin[]> {
   }));
 }
 
+// Fetches a coin by its ID
 export async function getCoinByID(id: string): Promise<Coin> {
   const response = await fetch(`${API_URL}/coins/${id}`);
 
@@ -37,6 +39,7 @@ export async function getCoinByID(id: string): Promise<Coin> {
   };
 }
 
+// Searches for a coin by its name or symbol and returns the ID of the first result
 export async function searchCoin(name: string): Promise<string> {
   const response = await fetch(`${API_URL}/search?query=${name}`);
 
@@ -53,6 +56,8 @@ export async function searchCoin(name: string): Promise<string> {
   return data.coins[0].id;
 }
 
+// Fetches the updated information for the selected coins and reorders them
+// based on the order of the original coins before returning them
 export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
   const coinIds: string[] = coins.map((coin) => coin.id);
 
@@ -74,6 +79,7 @@ export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
     marketCapUsd: crypto.market_cap,
   }));
 
+  // Reorder the coins based on the original order
   const updatedCoins = coins.map((coin) => {
     const updatedCoin = returnedCoins.find((c) => c.id === coin.id);
 
@@ -87,6 +93,7 @@ export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
   return updatedCoins;
 }
 
+// Fetches the price history of a coin for the last hour in 5-minute intervals
 export async function getCoinHistory(id: string): Promise<CoinHistory> {
   const response = await fetch(
     `${API_URL}/coins/${id}/market_chart?vs_currency=usd&days=1`

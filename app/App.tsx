@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
+import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
+import { Coin, DropdownCoin } from "@/types";
 import CoinDropdown from "@/components/CoinDropdown";
 import CoinDisplay from "@/components/CoinDisplay";
-import { Coin, DropdownCoin } from "@/types";
-import { getCoinByID, getUpdatedCoins } from "@/utils/cryptoAPI";
 import CoinSearch from "@/components/CoinSearch";
 import "@/styles/App.css";
 
@@ -16,16 +16,19 @@ interface AppProps {
 export default function App({ dropdownCoins, initError }: AppProps) {
   const [selectedCoins, setSelectedCoins] = useState<Coin[]>([]);
   const [error, setError] = useState<string | null>(initError);
+
+  // Creates a ref to store and update the selectedCoins state
   const selectedCoinsRef = useRef(selectedCoins);
 
+  // Shows error message
   const showError = (err: string | null) => {
     if (!err) {
       return;
     }
-    console.error(err);
     setError(err);
   };
 
+  // Removes the error message after 5 seconds after being displayed by showError()
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     if (error) {
@@ -40,8 +43,14 @@ export default function App({ dropdownCoins, initError }: AppProps) {
     };
   }, [error]);
 
+  // Adds a coin to the selected coins
   const addCoin = (coinId: string) => {
-    if (!coinId || selectedCoins.some((coin) => coin.id === coinId)) {
+    if (!coinId) {
+      return;
+    }
+
+    if (selectedCoins.some((coin) => coin.id === coinId)) {
+      showError("Coin already added");
       return;
     }
 
@@ -55,12 +64,13 @@ export default function App({ dropdownCoins, initError }: AppProps) {
       });
   };
 
+  // Removes a coin from the selected coins
   const removeCoin = (coinId: string) => {
     setSelectedCoins(selectedCoins.filter((coin) => coin.id !== coinId));
   };
 
+  // Updates the coins using the selectedCoinsRef
   const updateCoins = () => {
-    return;
     console.log("Updating coins at", new Date().toLocaleTimeString());
     getUpdatedCoins(selectedCoinsRef.current)
       .then((updatedCoins) => {
@@ -71,9 +81,9 @@ export default function App({ dropdownCoins, initError }: AppProps) {
       });
   };
 
+  // Shows the initial error message if present and starts the 1min interval to update the coins
   useEffect(() => {
     showError(initError);
-    updateCoins();
     const intervalId = setInterval(updateCoins, 60000);
 
     return () => {
@@ -81,11 +91,13 @@ export default function App({ dropdownCoins, initError }: AppProps) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Loads the selected coins from the local storage
   useEffect(() => {
     const storedValue = localStorage.getItem("selectedCoins");
     setSelectedCoins(storedValue ? JSON.parse(storedValue) : []);
   }, []);
 
+  // Updates the selected coins ref and stores them in the local storage
   useEffect(() => {
     selectedCoinsRef.current = selectedCoins;
     localStorage.setItem("selectedCoins", JSON.stringify(selectedCoins));
@@ -106,7 +118,12 @@ export default function App({ dropdownCoins, initError }: AppProps) {
 
       <div className="coin-container">
         {selectedCoins.map((coin) => (
-          <CoinDisplay key={coin.id} coin={coin} removeCoin={removeCoin} />
+          <CoinDisplay
+            key={coin.id}
+            coin={coin}
+            removeCoin={removeCoin}
+            showError={showError}
+          />
         ))}
       </div>
     </>

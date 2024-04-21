@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Coin, CoinHistory } from "@/types";
+import { convertTimestamp, formatPrice } from "@/utils/helpers";
 import { getCoinHistory } from "@/utils/cryptoAPI";
-import { convertTimestamp } from "@/utils/helpers";
+import { Coin, CoinHistory } from "@/types";
+import "chartjs-plugin-annotation";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +14,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Annotation from "chartjs-plugin-annotation";
 
 ChartJS.register(
   CategoryScale,
@@ -21,25 +23,41 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Annotation
 );
 
 interface CoinChartProps {
   coin: Coin;
+  showError: (err: string | null) => void;
 }
 
-export default function CoinChart({ coin }: CoinChartProps) {
+export default function CoinChart({ coin, showError }: CoinChartProps) {
   const [coinHistory, setCoinHistory] = useState<CoinHistory | null>(null);
 
   useEffect(() => {
-    console.log("Fetching coin history for", coin.id);
-    getCoinHistory(coin.id).then((history) => {
-      setCoinHistory(history);
-    });
-  }, [coin]);
+    console.log(`Fetching coin history for ${coin.id}`);
+    getCoinHistory(coin.id)
+      .then((history) => {
+        setCoinHistory(history);
+      })
+      .catch((error) => {
+        console.error(error);
+        showError("Failed to fetch coin history");
+      });
+  }, [coin]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const prices = coinHistory?.prices || [];
   const timestampsUTC = coinHistory?.timestamps.map(convertTimestamp) || [];
+
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
+  const minPriceIndex = prices.indexOf(minPrice);
+  const minPriceTimestamp = timestampsUTC[minPriceIndex];
+
+  const maxPriceIndex = prices.indexOf(maxPrice);
+  const maxPriceTimestamp = timestampsUTC[maxPriceIndex];
 
   const options = {
     responsive: true,
@@ -63,11 +81,47 @@ export default function CoinChart({ coin }: CoinChartProps) {
       },
       title: {
         display: true,
-        text: `Price Chart for ${coin.name}`,
+        text: `${coin.name} Price Chart`,
         color: "black",
         font: {
           size: 20,
         },
+      },
+      annotation: {
+        annotations: [
+          {
+            type: "line" as const,
+            scaleID: "x",
+            value: minPriceTimestamp,
+            borderColor: "orange",
+            borderWidth: 2,
+            label: {
+              content: `Min: ${formatPrice(
+                minPrice,
+                3
+              )} at ${minPriceTimestamp}`,
+              enabled: true,
+              position: "end" as const,
+              display: true,
+            },
+          },
+          {
+            type: "line" as const,
+            scaleID: "x",
+            value: maxPriceTimestamp,
+            borderColor: "green",
+            borderWidth: 2,
+            label: {
+              content: `Max: ${formatPrice(
+                maxPrice,
+                3
+              )} at ${maxPriceTimestamp}`,
+              enabled: true,
+              position: "start" as const,
+              display: true,
+            },
+          },
+        ],
       },
     },
   };

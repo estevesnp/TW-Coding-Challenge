@@ -16,6 +16,7 @@ export default function CoinSearch({ addCoin, showError }: CoinSearchProps) {
     setCoinId(event.target.value);
   };
 
+  // Adds a coin to the selected coins
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -30,7 +31,8 @@ export default function CoinSearch({ addCoin, showError }: CoinSearchProps) {
         setCoinId("");
       })
       .catch((error) => {
-        showError(error.message);
+        console.error(error);
+        showError("Failed to add coin, try again later");
       });
   };
 

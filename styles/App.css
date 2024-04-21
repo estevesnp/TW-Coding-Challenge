@@ -16,8 +16,10 @@
 
 .error-message {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  left: 50%; /* position the left edge in the middle of the viewport */
+  transform: translate(
+    -50%
+  ); /* shift the element back by half of its width and height */
   padding: 10px;
   background-color: #f8d7da; /* light red */
   color: #721c24; /* dark red */

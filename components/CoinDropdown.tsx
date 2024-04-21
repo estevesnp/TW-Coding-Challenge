@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { Coin, DropdownCoin } from "@/types";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
@@ -20,19 +19,15 @@ export default function CoinDropdown({
 }: CoinDropdownProps) {
   const [key, setKey] = useState("");
 
+  // Adds a coin to the selected coins
   const handleChange = (e: SelectChangeEvent<string>) => {
-    // closes the dropdown after selecting a coin
+    // Closes the dropdown after selecting a coin by changing the MenuItem key
     setKey((prevKey) => (prevKey ? "" : "key"));
 
-    if (
-      !e.target.value ||
-      selectedCoins.some((coin) => coin.id === e.target.value)
-    ) {
+    if (!e.target.value) {
       return;
     }
-
     addCoin(e.target.value);
-    console.log("[" + e.target.value + "]");
   };
 
   return (

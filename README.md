@@ -1,36 +1,54 @@
 # TechWave Coding Challenge - Crypto Currency Tracker
 
-## How to install
+## Overview
 
-At the root of the project, run the following commands:
+This app allows the user to track the price and market cap of several different Crypto Coins at once.
+
+It also allows the user to get an in-depth look at the price changes in the last hour.
+
+Note, however, that since it uses a free API by [Coin Gecko](https://www.coingecko.com/), it has a set limit rate.
+
+## Features
+
+- Select a coin to track from a dropdown menu from 10 of largest coins by market-cap
+- Search for a coin by name or symbol (e.g., Bitcoin or BTC)
+- Remove a coin from the select coins
+- View an updated graph of the price changes from the last hour, with the highest and lowest prices being annotated
+
+## Dependencies
+
+- NPM
+- Node.js
+
+## Tech-stack
+
+- TypeScript
+- React
+- Next.js
+- MaterialUI
+- Chart.js
+
+## How to install the app
+
+Firstly, clone this repository.
+
+Afterwards, cd to the root of the app and run the following commands:
 
 ```bash
 npm install
 npm run build
 ```
 
-Then, to run the project, run:
+## How to run the app
+
+To run the app, run:
 
 ```bash
 npm start
 ```
 
-By default, the project will run on port 3000. You can access it by going to `http://localhost:3000`.
+By default, the project will run on `http://localhost:3000`.
 
-## TODO
+To change the port, you can run `npm start -- --port PORT_NUM`, where PORT_NUM is your desired port.
 
-- [x] Create simple API handling
-- [x] Create a simple UI
-- [x] Add Crypto selection
-- [x] Fix loading the initial dropdown values multiple times
-- [x] Add multiple selections at a time
-- [x] Add the possibility of removing a coin
-- [x] Update the prices at regular intervals (e.g. every 30secs) without refreshing the page
-- [x] Add styling (Material UI)
-- [ ] Add MORE styling
-
-### Optional
-
-- [x] Add search functionality
-- [x] Add price history chart (Chart.js)
-- [x] Local storage persistence for selected cryptos between sessions
+You can run the app in development mode with `npm run dev`, but do note that local storage won't function properly.

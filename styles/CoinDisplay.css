@@ -3,35 +3,39 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
-  width: 260px;
-  font-size: 16px;
+  width: 300px;
 }
 
 .coin-name {
-  font-size: 1.5em;
+  font-size: 24px;
   font-weight: bold;
   color: #333333;
 }
 
 .coin-symbol {
-  font-size: 1.2em;
+  font-size: 20px;
   color: #666666;
   font-style: italic;
 }
 
 .coin-price {
-  font-size: 1em;
+  font-size: 20px;
   color: #333333;
 }
 
 .coin-market-cap {
-  font-size: 1em;
+  font-size: 16px;
   color: #333333;
 }
 
 .remove-button {
   margin-top: 20px;
   margin-right: 10px;
+  background-color: red;
+}
+
+.remove-button:hover {
+  background-color: darkred;
 }
 
 .chart-button {
