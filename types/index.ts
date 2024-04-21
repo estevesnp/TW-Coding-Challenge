@@ -4,6 +4,7 @@ export interface Coin {
   name: string;
   priceUsd: number;
   marketCapUsd: number;
+  updatedAt: number;
 }
 
 // Information necessary to display a coin in the dropdown

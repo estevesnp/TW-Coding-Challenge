@@ -7,14 +7,12 @@ import InputLabel from "@mui/material/InputLabel";
 import "@/styles/CoinDropdown.css";
 
 interface CoinDropdownProps {
-  dropdownCoins: DropdownCoin[];
-  selectedCoins: Coin[];
+  dropdownCoins: Coin[];
   addCoin: (coinId: string) => void;
 }
 
 export default function CoinDropdown({
   dropdownCoins,
-  selectedCoins,
   addCoin,
 }: CoinDropdownProps) {
   const [key, setKey] = useState("");

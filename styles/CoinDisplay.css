@@ -28,8 +28,13 @@
   color: #333333;
 }
 
+.coin-last-update {
+  font-size: 14px;
+  color: #333333;
+}
+
 .remove-button {
-  margin-top: 20px;
+  margin-top: 13px;
   margin-right: 10px;
   background-color: red;
 }
@@ -39,10 +44,25 @@
 }
 
 .chart-button {
-  margin-top: 20px;
+  margin-top: 13px;
 }
 
 .dialog-title {
   font-size: 30px;
   text-align: center;
+}
+
+.close-chart-box {
+  display: flex;
+  justify-content: center;
+}
+
+.close-chart-button {
+  margin-top: 10px;
+  width: 200px;
+  background-color: red;
+}
+
+.close-chart-button:hover {
+  background-color: darkred;
 }

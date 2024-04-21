@@ -3,7 +3,7 @@ import { Coin, DropdownCoin, CoinHistory } from "@/types";
 const API_URL = "https://api.coingecko.com/api/v3";
 
 // Fetches the top 10 coins by market cap to display in the dropdown menu
-export async function getTopCoins(): Promise<DropdownCoin[]> {
+export async function getTopCoins(): Promise<Coin[]> {
   const response = await fetch(
     `${API_URL}/coins/markets?vs_currency=usd&per_page=10`
   );
@@ -15,8 +15,12 @@ export async function getTopCoins(): Promise<DropdownCoin[]> {
   const data = await response.json();
 
   return data.map((crypto: any) => ({
-    name: crypto.name,
     id: crypto.id,
+    symbol: crypto.symbol,
+    name: crypto.name,
+    priceUsd: crypto.current_price,
+    marketCapUsd: crypto.market_cap,
+    updatedAt: Date.now(),
   }));
 }
 
@@ -36,6 +40,7 @@ export async function getCoinByID(id: string): Promise<Coin> {
     name: data.name,
     priceUsd: data.market_data.current_price.usd,
     marketCapUsd: data.market_data.market_cap.usd,
+    updatedAt: Date.now(),
   };
 }
 
@@ -77,6 +82,7 @@ export async function getUpdatedCoins(coins: Coin[]): Promise<Coin[]> {
     name: crypto.name,
     priceUsd: crypto.current_price,
     marketCapUsd: crypto.market_cap,
+    updatedAt: Date.now(),
   }));
 
   // Reorder the coins based on the original order

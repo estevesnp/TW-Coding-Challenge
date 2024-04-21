@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { stringToColor, formatPrice } from "@/utils/helpers";
+import { stringToColor, formatPrice, convertTimestamp } from "@/utils/helpers";
 import { Coin } from "@/types";
 import CoinChart from "@/components/CoinChart";
 import Card from "@mui/material/Card";
@@ -22,6 +22,7 @@ export default function CoinDisplay({
   showError,
 }: CoinDisplayProps) {
   const [open, setOpen] = useState(false);
+  const [showChartError, setShowChartError] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -29,6 +30,15 @@ export default function CoinDisplay({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleChartFetchError = () => {
+    setShowChartError(true);
+  };
+
+  const closeChartError = () => {
+    setOpen(false);
+    setShowChartError(false);
   };
 
   return (
@@ -47,6 +57,9 @@ export default function CoinDisplay({
         </Typography>
         <Typography className="coin-market-cap">
           Market Cap: {formatPrice(coin.marketCapUsd)}
+        </Typography>
+        <Typography className="coin-last-update">
+          Last updated at {convertTimestamp(coin.updatedAt)} UTC
         </Typography>
         <Button
           variant="contained"
@@ -67,8 +80,20 @@ export default function CoinDisplay({
       </CardContent>
 
       <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+        {showChartError && (
+          <Box className="close-chart-box">
+            <Button
+              variant="contained"
+              size="small"
+              onClick={closeChartError}
+              className="close-chart-button"
+            >
+              Error fetching chart data, click to close
+            </Button>
+          </Box>
+        )}
         <Box p={3}>
-          <CoinChart coin={coin} showError={showError} />
+          <CoinChart coin={coin} handleFetchError={handleChartFetchError} />
         </Box>
       </Dialog>
     </Card>

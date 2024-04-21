@@ -29,10 +29,10 @@ ChartJS.register(
 
 interface CoinChartProps {
   coin: Coin;
-  showError: (err: string | null) => void;
+  handleFetchError: () => void;
 }
 
-export default function CoinChart({ coin, showError }: CoinChartProps) {
+export default function CoinChart({ coin, handleFetchError }: CoinChartProps) {
   const [coinHistory, setCoinHistory] = useState<CoinHistory | null>(null);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function CoinChart({ coin, showError }: CoinChartProps) {
       })
       .catch((error) => {
         console.error(error);
-        showError("Failed to fetch coin history");
+        handleFetchError();
       });
   }, [coin]); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -1,9 +1,9 @@
 import App from "./App";
-import { DropdownCoin } from "@/types";
+import { Coin } from "@/types";
 import { getTopCoins } from "@/utils/cryptoAPI";
 
 export default async function Page() {
-  const coinNames: DropdownCoin[] = [];
+  const coinNames: Coin[] = [];
   let initError: string | null = null;
 
   try {
