@@ -1,4 +1,4 @@
-# TechWave Coding Challenge - Crypto Currency Tracker
+# Cypto Currency Price Tracker
 
 ## Overview
 
